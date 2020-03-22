@@ -17,6 +17,33 @@ class UserController {
       provider
     });
   }
+
+  async update(req, res) {
+    const { email, oldPassword } = req.body;
+
+    const user = await User.findByPk(req.userId);
+
+    if (email && email !== user.email) {
+      const userExist = await User.findOne({ where: { email } });
+
+      if (userExist) {
+        return res.status(400).json({ error: "Usuário já existe." });
+      }
+    }
+
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: "Senha não compatível" });
+    }
+
+    const { id, name, provider } = await user.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      email,
+      provider
+    });
+  }
 }
 
 export default new UserController();
