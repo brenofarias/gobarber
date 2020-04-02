@@ -25,7 +25,7 @@ class Database {
 
   mongo() {
     this.mongoConnection = mongoose.connect(
-      "mongodb://localhost:27017/gobarber",
+      "mongodb+srv://admin:admin@cluster0-ouxsh.mongodb.net/gobarber?retryWrites=true&w=majority",
       {
         useNewUrlParser: true,
         useFindAndModify: true,
