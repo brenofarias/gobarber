@@ -48,6 +48,15 @@ class AppointmentController {
     const { provider_id, date } = req.body;
 
     /**
+     * Checando se o provider está tentando marca horário com ele mesmo
+     */
+    if (provider_id === req.userId) {
+      return res
+        .status(400)
+        .json({ error: "Você não pode agendar um horário para si" });
+    }
+
+    /**
      * Checando se o provider_id é um provider
      */
     const isProvider = await User.findOne({
